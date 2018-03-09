@@ -10,5 +10,9 @@ No PYgame or curses were used, except standart modules no other dependencies
 
 1. git clone git@github.com:Yerofeev/Colorful_Mastermind.git
 2. cd Colorful_Mastermind
-3. python3 game.py
+3. python(3) game.py
 4. Enjoy!
+
+**Screens**
+https://github.com/Yerofeev/Colorful_Mastermind/blob/master/Mastermind1.png
+https://github.com/Yerofeev/Colorful_Mastermind/blob/master/Mastermind2.png
