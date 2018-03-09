@@ -14,5 +14,6 @@ No PYgame or curses were used, except standart modules no other dependencies
 4. Enjoy!
 
 **Screens**
-![Mastermind1](Colorful_Mastermind/Mastermind1.png)
-![Mastermind2](Colorful_Mastermind/Mastermind2.png)
+![Screen_1](https://github.com/Yerofeev/Colorful_Mastermind/blob/master/Mastermind1.png)
+![Screen_2](https://github.com/Yerofeev/Colorful_Mastermind/blob/master/Mastermind2.png))
+
