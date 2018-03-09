@@ -1,4 +1,4 @@
-** Colorful_Mastermind**
+**Colorful_Mastermind**
 
 Yet another Python implementation of MasterMind game for Linux terminals with colorful pegs and dynamic typing.
 
@@ -8,7 +8,7 @@ No PYgame or curses were used, except standart modules no other dependencies
 
 **Usage:**
 
-git clone git@github.com:Yerofeev/Colorful_Mastermind.git
-cd Colorful_Mastermind
-python3 game.py
-Enjoy!
+1. git clone git@github.com:Yerofeev/Colorful_Mastermind.git
+2. cd Colorful_Mastermind
+3. python3 game.py
+4. Enjoy!
