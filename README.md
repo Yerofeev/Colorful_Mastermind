@@ -2,7 +2,7 @@
 
 Yet another Python implementation of MasterMind game for Linux terminals with colorful pegs and dynamic typing.
 
-Requirements: and dependencies: OS: Linux, Python 3.x
+Requirements: and dependencies: OS: Linux, Python 2.x-3.x
 
 No PYgame or curses were used, except standart modules no other dependencies
 
