@@ -54,7 +54,7 @@ def preliminaries():
     print_there(1, 60, '(q - Quit)')
     print('Choose difficulty level: ')
     length = input_difficulty('Enter the length of code [3-7]: ')
-    strength = input_difficulty('Enter the number of different symbols [3-7]: ')
+    strength = input_difficulty('Enter the number of possible symbols [3-7]: ')
     os.system('clear')
     secret_number = []
     for i in range(length):
