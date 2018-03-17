@@ -7,6 +7,13 @@ import termios
 from time import sleep
 from random import randint
 
+
+try:
+    input = raw_input
+except NameError:
+    pass
+
+
 # [red, yellow, green, blue, white, purple,light blue] Extended ANSI
 colors = ['\033[91m',
           '\033[93m',
