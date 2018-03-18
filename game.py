@@ -59,8 +59,6 @@ def preliminaries():
     secret_number = []
     for i in range(length):
         secret_number.append(randint(1, strength))
-    for i, j in enumerate(secret_number):
-        print_there(14, 62+2*i, colors[j-1] + peg)
     for i in range(1, 21):
         print(i)
         print_there(i, length + 16, '# #' + ' '*17 + '# #')
@@ -158,7 +156,6 @@ def main():
             while True:
                 entered_number = [0 for _ in range(length)]   
                 entered_number = get_char(length, strength, entered_number, y)
-                print(entered_number, secret_number, end='')
                 bulls, cows = game_proc(secret_number, entered_number)    # the game_procedure
                 print_there(y, length + 21, bull * bulls + cow * cows)   # prints result for current combination
                 if bulls == len(secret_number):
