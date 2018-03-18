@@ -54,11 +54,13 @@ def preliminaries():
     print_there(1, 60, '(q - Quit)')
     print('Choose difficulty level: ')
     length = input_difficulty('Enter the length of code [3-7]: ')
-    strength = input_difficulty('Enter the number of possible symbols [3-7]: ')
+    strength = input_difficulty('Enter the number of possible distinct symbols [3-7]: ')
     os.system('clear')
     secret_number = []
     for i in range(length):
         secret_number.append(randint(1, strength))
+    for i, j in enumerate(secret_number):
+        print_there(14, 62+2*i, colors[j-1] + peg)
     for i in range(1, 21):
         print(i)
         print_there(i, length + 16, '# #' + ' '*17 + '# #')
@@ -74,7 +76,7 @@ def preliminaries():
     return length, strength, secret_number
 
 
-def get_char(length, strength, entered_number, comb_confirmed):
+def get_char(length, strength, entered_number, y):
     """Dynamically reads one symbol entered by player
     then either add one symbol to the code according to color-scheme depending on length and strength of code:
     1 - Red
@@ -83,6 +85,8 @@ def get_char(length, strength, entered_number, comb_confirmed):
     or perform comparison to the secret code if 'Enter' or exits if 'Q'"""
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
+    k = 0
+    print_there(18, 47, colors[2] + 'Only digits or Q')
     while True:
         try:
             tty.setcbreak(fd)
@@ -91,14 +95,26 @@ def get_char(length, strength, entered_number, comb_confirmed):
                 answer = int(answer)
                 if not 1 <= answer <= strength:
                     continue
-                entered_number.append(answer)
-                return answer, entered_number, comb_confirmed
+                print_there(y, 6 + 2*(k % length), colors[answer - 1] + peg)
+                entered_number[k % length] = answer
+                k += 1
             except ValueError:
                 if answer == 'Q':
                     sys.exit()
-                elif answer == '\n' and len(entered_number) >= length:
-                    comb_confirmed = 1
-                    return answer, entered_number, comb_confirmed
+                elif answer == '\n':
+                    if entered_number.count(0) == 0:
+                        return entered_number
+                elif ord(answer) == 127:   # Backspace
+                    z = entered_number.count(0)
+                    if z != length:   # check that smth was entered
+                        if z == 0:    # if no zeroes left in player-list - delete the last element from list
+                            entered_number[-1] = 0
+                        else:
+                            # delete the first element before first zero element in player list
+                            entered_number[entered_number.index(0) - 1] = 0
+                        k = entered_number.index(0)       # counter is determined by index of the first zero in list
+                        print_there(y, 6 + 2 * (length-1) - 2 * z, ' '*2)
+                    continue
                 elif answer not in [str(i) for i in range(1, strength + 1)]:
                     print_there(18, 47, colors[0] + 'Only digits or Q')
                     continue
@@ -140,28 +156,10 @@ def main():
             length, strength, secret_number = preliminaries()
             y = 1                 # x, y - to print at certain coordinates
             while True:
-                entered_number = []
-                x = 6
-                comb_confirmed = 0
-                tricky_slice = []
-                while True:
-                    one_num, entered_number, comb_confirmed = get_char(length, strength, entered_number, comb_confirmed)
-                    if comb_confirmed == 1:              # if Enter and entered code is legit then check code
-                        break
-                    print_there(y, x, colors[one_num - 1] + peg)
-                    x += 2
-                    t = (len(entered_number)) % length
-                    '''to correctly parse the entered code when player reenters the combination, but not completely
-                     for instance: entered [1,1,1] then player decides to change the combination to [2,1,1] -> 
-                     he reenters first symbol, on the screen there is now [2,1,1], 
-                     but actually in python's list is now [1,1,2]... '''
-                    if t == 0:
-                        x -= length*2
-                        tricky_slice = entered_number[-length:]
-                    else:
-                        tricky_slice = entered_number[-t:] + entered_number[-length:-t]
-                bulls, cows = game_proc(secret_number, tricky_slice)    # the game_procedure
-                print_there(18, 47, colors[2] + 'Only digits or Q')
+                entered_number = [0 for _ in range(length)]   
+                entered_number = get_char(length, strength, entered_number, y)
+                print(entered_number, secret_number, end='')
+                bulls, cows = game_proc(secret_number, entered_number)    # the game_procedure
                 print_there(y, length + 21, bull * bulls + cow * cows)   # prints result for current combination
                 if bulls == len(secret_number):
                     print(colors[0] + '♕ ♕ ♕  You have won! ♔ ♔ ♔ ')
